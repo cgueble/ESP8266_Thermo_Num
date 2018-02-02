@@ -1,0 +1,10 @@
+{
+  "builtInLibrariesFolders": "C:\\Program Files (x86)\\Arduino\\libraries",
+  "customBuildProperties": "build.warn_data_percentage=75,runtime.tools.xtensa-lx106-elf-gcc.path=C:\\Users\\cgueble\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\xtensa-lx106-elf-gcc\\1.20.0-26-gb404fb9-2,runtime.tools.mkspiffs.path=C:\\Users\\cgueble\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\mkspiffs\\0.1.2,runtime.tools.esptool.path=C:\\Users\\cgueble\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\esptool\\0.4.9",
+  "fqbn": "esp8266:esp8266:nodemcu:CpuFrequency=80,UploadSpeed=115200,FlashSize=4M3M",
+  "hardwareFolders": "C:\\Program Files (x86)\\Arduino\\hardware,C:\\Users\\cgueble\\AppData\\Local\\Arduino15\\packages",
+  "otherLibrariesFolders": "C:\\Users\\cgueble\\Documents\\Arduino\\libraries",
+  "runtime.ide.version": "10805",
+  "sketchLocation": "C:\\Users\\cgueble\\Documents\\Arduino\\52-Wifi-thermo-num\\Wifi-thermo-num\\Wifi-thermo-num.ino",
+  "toolsFolders": "C:\\Program Files (x86)\\Arduino\\tools-builder,C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr,C:\\Users\\cgueble\\AppData\\Local\\Arduino15\\packages"
+}
