@@ -1,10 +1,12 @@
-#include <ESP8266WiFi.h>
-#include <WiFiUdp.h>
-#include <TimeLib.h>
-#include <PubSubClient.h>
-#include <OneWire.h>
-#include <DallasTemperature.h>
-#include <Codes_Pouilly.h>// contient toutes les variables avec les loggins et les codes
+# 1 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+# 1 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+# 2 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino" 2
+# 3 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino" 2
+# 4 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino" 2
+# 5 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino" 2
+# 6 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino" 2
+# 7 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino" 2
+# 8 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino" 2
 
 //****************Configuration pour Debug****************
 const boolean SERIAL_PORT_LOG_ENABLE = true; //true pour avoir la console active et false pour la desactiver ; il faut la desactiver pour l'application car meme pour que "verrou"
@@ -26,15 +28,15 @@ String StringTime = "no time";
 //Definition des Outputs
 int thermo_Power = 0; //ONEWIRE is plugged into pin 5 on GPIO_0 the Arduinol'alimentation des thermometre se fera sur GPIO2 c'est a dire D2 c'est a dire la pin 3 de la carte ESP8266-E01 ; c'est une output
 
-#define ONE_WIRE_BUS 2 // l'alimentation des thermometre se fera sur GPIO2 c'est a dire D2 c'est a dire la pin 3 de la carte ESP8266-E01 ; c'est une output
-#define TEMPERATURE_PRECISION 10
-  
-OneWire oneWire(ONE_WIRE_BUS); // Setup a oneWire instance to communicate with any OneWire devices
+
+
+
+OneWire oneWire(2 /* l'alimentation des thermometre se fera sur GPIO2 c'est a dire D2 c'est a dire la pin 3 de la carte ESP8266-E01 ; c'est une output*/); // Setup a oneWire instance to communicate with any OneWire devices
 DallasTemperature sensors(&oneWire); // Pass our oneWire reference to Dallas Temperature.
-#define NumberOfDevices 3
+
 byte totalDevices;
 //Sensor Adresses 
-byte allAddress [NumberOfDevices][8];//Permet d'explorer tous les sensors
+byte allAddress [3][8];//Permet d'explorer tous les sensors
 DeviceAddress SensorBoard = { 0x28, 0xFF, 0x0F, 0xEA, 0x00, 0x17, 0x04, 0x96 };//Sensor soldered on board
 DeviceAddress SensorExt; //external sensor
 DeviceAddress SensorChauf; // Sensor circuit de chauffage
@@ -73,8 +75,8 @@ int Minute;
 int Second;
 int Day;
 int DayofWeek; // Sunday is day 0
-int Month;     // Jan is month 0
-int Year;      // the Year minus 1900
+int Month; // Jan is month 0
+int Year; // the Year minus 1900
 int WeekDay;
 
 //Variable pour la gestion de thingspeak
@@ -86,7 +88,7 @@ time_t epoch = 0; // contient
 IPAddress ip;
 IPAddress timeServerIP;
 
-WiFiClient client;  // Initialize the Wifi client library.
+WiFiClient client; // Initialize the Wifi client library.
 WiFiUDP udp; //A UDP instance to let us send and receive packets over UDP
 PubSubClient mqttClient(client); // Initialize the PuBSubClient library
 
@@ -103,10 +105,10 @@ void setup() {
 
 
 //Set up PIN in OUTPUT
-  pinMode(thermo_Power, OUTPUT);// on definit comme output le port qui servira a monitorer la temperature
-  digitalWrite(thermo_Power, HIGH);// on commence par couper l'alim des capteurs
- 
-  
+  pinMode(thermo_Power, 0x01);// on definit comme output le port qui servira a monitorer la temperature
+  digitalWrite(thermo_Power, 0x1);// on commence par couper l'alim des capteurs
+
+
 //Debut de connexion intenet  
   while ((WiFi.status() != WL_CONNECTED) && AvecWifi) {
     WiFi.disconnect();
@@ -147,20 +149,20 @@ void setup() {
   //Initialize the Temperature measurement library
   sensors.begin();
 
-  totalDevices = discoverOneWireDevices();         // get addresses of our one wire devices into allAddress array 
+  totalDevices = discoverOneWireDevices(); // get addresses of our one wire devices into allAddress array 
   Serial.print("totalDevices = ");
   Serial.println(totalDevices);
-  for (byte i=0; i < totalDevices; i++){ 
+  for (byte i=0; i < totalDevices; i++){
   Serial.print("sensors.setResolution(");
-  Serial.print(i);  
+  Serial.print(i);
   Serial.print(",");
   Serial.println("9)");
-  sensors.setResolution(allAddress[i], 9);      // and set the a to d conversion resolution of each.
+  sensors.setResolution(allAddress[i], 9); // and set the a to d conversion resolution of each.
     }
 
-  Serial.println("System initialized");  
+  Serial.println("System initialized");
   delay(1000);
-  sensors.requestTemperatures();                // Initiate  temperature request to all devices
+  sensors.requestTemperatures(); // Initiate  temperature request to all devices
   delay(1000);
 // float tempAdresse0 = readTemperature(allAddress[0]);
 // float tempAdresse1 = readTemperature(allAddress[1]);
@@ -236,7 +238,7 @@ Serial.println(ThempChauf);
 
 if (millis() - lastConnectionTime > RegularpostingInterval)
   {
-    mqttpublishtry();  
+    mqttpublishtry();
   }
 
 delay(6000);
@@ -363,8 +365,8 @@ void GetTimeByUDP() {
     //the timestamp starts at byte 40 of the received packet and is four bytes,
     // or two words, long. First, esxtract the two words:
 
-    unsigned long highWord = word(packetBuffer[40], packetBuffer[41]);
-    unsigned long lowWord = word(packetBuffer[42], packetBuffer[43]);
+    unsigned long highWord = makeWord(packetBuffer[40], packetBuffer[41]);
+    unsigned long lowWord = makeWord(packetBuffer[42], packetBuffer[43]);
     // combine the four bytes (two words) into a long integer
     // this is NTP time (seconds since Jan 1 1900):
     secsSince1900 = highWord << 16 | lowWord;
@@ -396,15 +398,15 @@ void sendNTPpacket(IPAddress& address)
   memset(packetBuffer, 0, NTP_PACKET_SIZE);
   // Initialize values needed to form NTP request
   // (see URL above for details on the packets)
-  packetBuffer[0] = 0b11100011;   // LI, Version, Mode
-  packetBuffer[1] = 0;     // Stratum, or type of clock
-  packetBuffer[2] = 6;     // Polling Interval
-  packetBuffer[3] = 0xEC;  // Peer Clock Precision
+  packetBuffer[0] = 0b11100011; // LI, Version, Mode
+  packetBuffer[1] = 0; // Stratum, or type of clock
+  packetBuffer[2] = 6; // Polling Interval
+  packetBuffer[3] = 0xEC; // Peer Clock Precision
   // 8 bytes of zero for Root Delay & Root Dispersion
-  packetBuffer[12]  = 49;
-  packetBuffer[13]  = 0x4E;
-  packetBuffer[14]  = 49;
-  packetBuffer[15]  = 52;
+  packetBuffer[12] = 49;
+  packetBuffer[13] = 0x4E;
+  packetBuffer[14] = 49;
+  packetBuffer[15] = 52;
 
   // all NTP fields have been given values, now
   // you can send a packet requesting a timestamp:
@@ -413,7 +415,7 @@ void sendNTPpacket(IPAddress& address)
   udp.endPacket();
 }
 
-void sendDailyMail() {    
+void sendDailyMail() {
     GetTimeByUDP();
 //    Read_Button(IlsPorte, Verrou);
     if (SERIAL_PORT_LOG_ENABLE) {
@@ -492,7 +494,7 @@ byte sendEmail(String FcMailFrom, String FcMailTo, String FcMailContent, String 
   //Corps du mail
   client.print(FcMailContent); // message specifique de l'application appelante
 
-  
+
  // }
 
   client.print(StringDate);
@@ -631,7 +633,7 @@ void reconnect()
 
 void mqttpublish() {
   String data = String("field1=");
-  data = String("field1=" + String(ThempBoard, DEC) + "&field2=" + String(ThempExt, DEC) + "&field3=" + String(ThempChauf, DEC) + "&field4=" + String(rssi, DEC));
+  data = String("field1=" + String(ThempBoard, 10) + "&field2=" + String(ThempExt, 10) + "&field3=" + String(ThempChauf, 10) + "&field4=" + String(rssi, 10));
 
   // Get the data string length
   int length = data.length();
@@ -666,7 +668,7 @@ void mqttpublishtry() {
     }
 }
 
-void  WifiConnexionManager() {
+void WifiConnexionManager() {
   if (SERIAL_PORT_LOG_ENABLE) {
   Serial.println("Begin of WifiConnexionManager");
   }
@@ -681,7 +683,7 @@ void  WifiConnexionManager() {
           Serial.println(WiFi.SSID(i));
       }
     }
-for (int i = 0; i < numberOfNetworks; i++) {    
+for (int i = 0; i < numberOfNetworks; i++) {
     if (WiFi.SSID(i) == ssid1) {
       WiFi.begin(ssid1, password1);
       CurentSSID = WiFi.SSID(i);
@@ -721,7 +723,7 @@ for (int i = 0; i < numberOfNetworks; i++) {
 }//end WifiConnexionManager
 
 
-void  WifiConnectOwner(char* SSIDowner_fct, char* passwordowner_fct) {
+void WifiConnectOwner(char* SSIDowner_fct, char* passwordowner_fct) {
   if (SERIAL_PORT_LOG_ENABLE) {
       Serial.println("Begin of WifiConnectOwner");
       Serial.println("Already connected to :");
@@ -732,7 +734,7 @@ void  WifiConnectOwner(char* SSIDowner_fct, char* passwordowner_fct) {
     if ((WiFi.SSID(i) == SSIDowner_fct) && ((String)SSIDowner_fct != CurentSSID)) {
       WiFi.disconnect();
       WiFi.begin(SSIDowner_fct, passwordowner_fct);
-      
+
       if (SERIAL_PORT_LOG_ENABLE) {
         Serial.print("Wifi Owner trouve . temtative de connexion a: ");
         Serial.println(SSIDowner_fct);
@@ -745,12 +747,12 @@ void  WifiConnectOwner(char* SSIDowner_fct, char* passwordowner_fct) {
           Serial.print("connecte a: ");
           Serial.println(SSIDowner_fct);
         }
-        
+
       }
       break;
     }
   }//End FOR
-Serial.println("End of WifiConnectOwner");  
+Serial.println("End of WifiConnectOwner");
 }//end WifiConnectOwner
 
 void WaitConnexion(){
@@ -796,10 +798,10 @@ void WaitConnexion(){
              Serial.print("connecte a: ");
              Serial.println(WiFi.SSID());
             }
-      } 
+      }
       if (SERIAL_PORT_LOG_ENABLE) {
-      Serial.println("End of WaitConnexion");  
-      }   
+      Serial.println("End of WaitConnexion");
+      }
 }// end Waitconnexion
 
 int getSensorsOnBus() {
@@ -808,29 +810,29 @@ int getSensorsOnBus() {
 }
 
 byte discoverOneWireDevices() {
-  byte j=0;                                        // search for one wire devices and
+  byte j=0; // search for one wire devices and
                                                    // copy to device address arrays.
-  while ((j < NumberOfDevices) && (oneWire.search(allAddress[j]))) {        
+  while ((j < 3) && (oneWire.search(allAddress[j]))) {
     j++;
   }
   for (byte i=0; i < j; i++) {
     Serial.print("Device ");
-    Serial.print(i);  
-    Serial.print(": ");                          
-    printAddress(allAddress[i]);                  // print address from each device address arry.
+    Serial.print(i);
+    Serial.print(": ");
+    printAddress(allAddress[i]); // print address from each device address arry.
   }
   Serial.print("\r\n");
-  return j                      ;                 // return total number of devices found.
+  return j ; // return total number of devices found.
 }
 
 void printAddress(DeviceAddress addr) {
   byte i;
-  for( i=0; i < 8; i++) {                         // prefix the printout with 0x
+  for( i=0; i < 8; i++) { // prefix the printout with 0x
       Serial.print("0x");
       if (addr[i] < 16) {
-        Serial.print('0');                        // add a leading '0' if required.
+        Serial.print('0'); // add a leading '0' if required.
       }
-      Serial.print(addr[i], HEX);                 // print the actual value in HEX
+      Serial.print(addr[i], 16); // print the actual value in HEX
       if (i < 7) {
         Serial.print(", ");
       }
@@ -839,15 +841,15 @@ void printAddress(DeviceAddress addr) {
 }
 
 void printTemperature(DeviceAddress addr) {
-  float tempC = sensors.getTempC(addr);           // read the device at addr.
+  float tempC = sensors.getTempC(addr); // read the device at addr.
   if (tempC == -127.00) {
     Serial.println("Error getting temperature");
   } else {
     Serial.print("sensors.getTempC(addr)");
-    Serial.print(sensors.getTempC(addr));                          // and print its value.
+    Serial.print(sensors.getTempC(addr)); // and print its value.
     Serial.println(" C (");
     Serial.print("tempC");
-    Serial.print(tempC);                          // and print its value.
+    Serial.print(tempC); // and print its value.
     Serial.println(" C (");
     Serial.print(DallasTemperature::toFahrenheit(tempC));
     Serial.println(" F)");
@@ -855,28 +857,28 @@ void printTemperature(DeviceAddress addr) {
 }
 
 float readTemperature(DeviceAddress addr) {
-  float tempC = sensors.getTempC(addr);           // read the device at addr.
+  float tempC = sensors.getTempC(addr); // read the device at addr.
   if (tempC == -127.00) {
     Serial.print("Error getting temperature of device n°");
-    
+
     printAddress(addr);
-  } 
+  }
   return tempC;
 }
 
-byte findOnboardDevice(byte addr[NumberOfDevices][8], DeviceAddress SensorToCompare){
+byte findOnboardDevice(byte addr[3][8], DeviceAddress SensorToCompare){
     byte device;
     int i;
     int compare=0;
   for( device=0; device < totalDevices; device++){
-    compare=0;   
+    compare=0;
     Serial.println("searching for onBoard Device");
-    for( i=0; i < 8; i++) {                         // prefix the printout with 0x
+    for( i=0; i < 8; i++) { // prefix the printout with 0x
         Serial.print("0x");
         if (addr[device][i] < 16) {
-          Serial.print('0');                        // add a leading '0' if required.
+          Serial.print('0'); // add a leading '0' if required.
         }
-        Serial.print(addr[device][i], HEX);                 // print the actual value in HEX
+        Serial.print(addr[device][i], 16); // print the actual value in HEX
         if (addr[device][i] == SensorToCompare[i]){
           compare = compare +1;
           }
@@ -885,17 +887,17 @@ byte findOnboardDevice(byte addr[NumberOfDevices][8], DeviceAddress SensorToComp
         }
       }//end For
       Serial.print("\n\r compare = ");
-      Serial.println(compare);    
+      Serial.println(compare);
       if (compare == 8){
         Serial.print("On board Device found with n° ");
-        Serial.println(device); 
+        Serial.println(device);
         return device;
         break;
       }
    }// end For
 }
- 
-byte findChaufDevice(byte addr[NumberOfDevices][8], DeviceAddress SensorToCompare, byte excludedDevice){
+
+byte findChaufDevice(byte addr[3][8], DeviceAddress SensorToCompare, byte excludedDevice){
     byte device;
     byte deviceToReturn;
     int i;
@@ -936,10 +938,3 @@ byte findChaufDevice(byte addr[NumberOfDevices][8], DeviceAddress SensorToCompar
    }// end For
    return deviceToReturn;
 }
-
-
-
-
-
-
-    

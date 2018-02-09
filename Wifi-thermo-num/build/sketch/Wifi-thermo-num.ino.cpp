@@ -1,3 +1,6 @@
+#include <Arduino.h>
+#line 1 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 1 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 #include <TimeLib.h>
@@ -91,6 +94,51 @@ WiFiUDP udp; //A UDP instance to let us send and receive packets over UDP
 PubSubClient mqttClient(client); // Initialize the PuBSubClient library
 
 //************************Debut de setup*************************
+#line 94 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+void setup();
+#line 196 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+void loop();
+#line 252 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+void UpdateTime();
+#line 338 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+void GetTimeByUDP();
+#line 390 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+void sendNTPpacket(IPAddress& address);
+#line 416 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+void sendDailyMail();
+#line 439 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+byte sendEmail(String FcMailFrom, String FcMailTo, String FcMailContent, String FcThingspeakChannelAdress, String FcThingspeakChannelWriteAPIKey);
+#line 530 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+byte eRcv();
+#line 568 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+void efail();
+#line 602 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+void reconnect();
+#line 632 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+void mqttpublish();
+#line 650 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+void mqttpublishtry();
+#line 669 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+void WifiConnexionManager();
+#line 724 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+void WifiConnectOwner(char* SSIDowner_fct, char* passwordowner_fct);
+#line 756 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+void WaitConnexion();
+#line 805 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+int getSensorsOnBus();
+#line 810 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+byte discoverOneWireDevices();
+#line 826 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+void printAddress(DeviceAddress addr);
+#line 841 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+void printTemperature(DeviceAddress addr);
+#line 857 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+float readTemperature(DeviceAddress addr);
+#line 867 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+byte findOnboardDevice(byte addr[3][8], DeviceAddress SensorToCompare);
+#line 898 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+byte findChaufDevice(byte addr[3][8], DeviceAddress SensorToCompare, byte excludedDevice);
+#line 94 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void setup() {
   delay(1000);
   if (SERIAL_PORT_LOG_ENABLE) {
@@ -943,3 +991,4 @@ byte findChaufDevice(byte addr[NumberOfDevices][8], DeviceAddress SensorToCompar
 
 
     
+
