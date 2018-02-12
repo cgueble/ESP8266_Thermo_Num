@@ -11,7 +11,7 @@
 
 //****************Configuration pour Debug****************
 const boolean SERIAL_PORT_LOG_ENABLE = true; //true pour avoir la console active et false pour la desactiver ; il faut la desactiver pour l'application car meme pour que "verrou"
-const boolean AvecMail = false; //true pour activer les mails
+const boolean AvecMail = true; //true pour activer les mails
 const boolean AvecWifi = true; // true pour activer le wifi
 
 //Declaration des compteurs
@@ -48,9 +48,9 @@ byte extDeviceNumber=0;
 byte Sensor_addr[8][8];
 
 //Definition var for temperature monitoring
-int ThempBoard = 90;
-int ThempExt = 90;
-int ThempChauf = 90;
+int ThempBoard = 150;
+int ThempExt = 150;
+int ThempChauf = 150;
 int ThempMin = 5;// Temperature min a partir de laquelle 1 mail par jour est envoyé 
 
 
@@ -60,9 +60,7 @@ const unsigned int localPort = 2390;
 
 
 String MailToSend = "";
-boolean DailyMailSent = true;
-boolean DoorClosedBack = true; //true : porte refermee
-boolean Update_needed = false;
+boolean mailToSend = true;
 long rssi; //pour mesure RSSI
 
 //variables pour le gestion de la date et du temps
@@ -84,7 +82,8 @@ int WeekDay;
 const char* server = "mqtt.thingspeak.com";// Define the ThingSpeak MQTT broker
 unsigned long lastConnectionTime = 0; // track the last connection time
 const unsigned long postingInterval = 1L * 1000L;// post data every 1 seconds
-const unsigned long RegularpostingInterval = 1 * 60 * 1000L;// post data every 1 min
+const unsigned long RegularpostingInterval = 10 * 60 * 1000L;// post data every 1O min
+const unsigned long whatchDogValue = 60 * 60 * 1000L;// WhatchDog Value 60min
 time_t epoch = 0; // contient
 IPAddress ip;
 IPAddress timeServerIP;
@@ -94,51 +93,49 @@ WiFiUDP udp; //A UDP instance to let us send and receive packets over UDP
 PubSubClient mqttClient(client); // Initialize the PuBSubClient library
 
 //************************Debut de setup*************************
-#line 94 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 93 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void setup();
-#line 196 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 226 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void loop();
-#line 252 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 335 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void UpdateTime();
-#line 338 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 415 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void GetTimeByUDP();
-#line 390 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 467 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void sendNTPpacket(IPAddress& address);
-#line 416 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
-void sendDailyMail();
-#line 439 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 493 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 byte sendEmail(String FcMailFrom, String FcMailTo, String FcMailContent, String FcThingspeakChannelAdress, String FcThingspeakChannelWriteAPIKey);
-#line 530 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 584 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 byte eRcv();
-#line 568 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 622 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void efail();
-#line 602 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 656 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void reconnect();
-#line 632 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 696 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void mqttpublish();
-#line 650 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 716 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void mqttpublishtry();
-#line 669 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 734 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void WifiConnexionManager();
-#line 724 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 791 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void WifiConnectOwner(char* SSIDowner_fct, char* passwordowner_fct);
-#line 756 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 825 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void WaitConnexion();
-#line 805 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 874 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 int getSensorsOnBus();
-#line 810 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 879 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 byte discoverOneWireDevices();
-#line 826 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 899 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void printAddress(DeviceAddress addr);
-#line 841 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 914 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void printTemperature(DeviceAddress addr);
-#line 857 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 930 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 float readTemperature(DeviceAddress addr);
-#line 867 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 940 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 byte findOnboardDevice(byte addr[3][8], DeviceAddress SensorToCompare);
-#line 898 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 971 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 byte findChaufDevice(byte addr[3][8], DeviceAddress SensorToCompare, byte excludedDevice);
-#line 94 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 93 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void setup() {
   delay(1000);
   if (SERIAL_PORT_LOG_ENABLE) {
@@ -196,43 +193,74 @@ void setup() {
   sensors.begin();
 
   totalDevices = discoverOneWireDevices();         // get addresses of our one wire devices into allAddress array 
-  Serial.print("totalDevices = ");
-  Serial.println(totalDevices);
+  
+  if (SERIAL_PORT_LOG_ENABLE) {
+    Serial.print("totalDevices = ");
+    Serial.println(totalDevices);
+  }
   for (byte i=0; i < totalDevices; i++){ 
-  Serial.print("sensors.setResolution(");
-  Serial.print(i);  
-  Serial.print(",");
-  Serial.println("9)");
-  sensors.setResolution(allAddress[i], 9);      // and set the a to d conversion resolution of each.
+  if (SERIAL_PORT_LOG_ENABLE) {
+    Serial.print("sensors.setResolution(");
+    Serial.print(i);  
+    Serial.print(",");
+    Serial.println("12)");
+  }
+  sensors.setResolution(allAddress[i], 12);      // and set the ADC conversion resolution of each.
     }
 
-  Serial.println("System initialized");  
-  delay(1000);
+  if (SERIAL_PORT_LOG_ENABLE) {
+    Serial.println("System initialized");  
+  }
   sensors.requestTemperatures();                // Initiate  temperature request to all devices
-  delay(1000);
-// float tempAdresse0 = readTemperature(allAddress[0]);
-// float tempAdresse1 = readTemperature(allAddress[1]);
-// float tempAdresse2 = readTemperature(allAddress[2]);
 
 //Find the adress of the sensor on the board
 
 onBoardDeviceNumber = findOnboardDevice(allAddress, SensorBoard);
 chaufDeviceNumber = findChaufDevice(allAddress, SensorBoard, onBoardDeviceNumber);
 sensors.requestTemperatures();
-Serial.print("Temperature of device n°0= ");
-Serial.println(sensors.getTempCByIndex(0));
-Serial.print("Temperature of device n°1= ");
-Serial.println(sensors.getTempCByIndex(1));
-Serial.print("Temperature of device n°2= ");
-Serial.println(sensors.getTempCByIndex(2));
+  if (SERIAL_PORT_LOG_ENABLE) {
+    Serial.print("Temperature of device n°0= ");
+    Serial.println(sensors.getTempCByIndex(0));
+    Serial.print("Temperature of device n°1= ");
+    Serial.println(sensors.getTempCByIndex(1));
+    Serial.print("Temperature of device n°2= ");
+    Serial.println(sensors.getTempCByIndex(2));
+  }
+if(onBoardDeviceNumber==1){
+  if(chaufDeviceNumber==2){
+    extDeviceNumber=3;
+    }
+    else{
+    extDeviceNumber=2;
+    }  
+  }
+if(onBoardDeviceNumber==2){
+  if(chaufDeviceNumber==1){
+    extDeviceNumber=3;
+    }
+    else{
+    extDeviceNumber=1;
+    }  
+  }
+  if(onBoardDeviceNumber==3){
+  if(chaufDeviceNumber==2){
+    extDeviceNumber=1;
+    }
+    else{
+    extDeviceNumber=2;
+    }  
+  }
 
-Serial.print("on board device n° = ");
-Serial.println(onBoardDeviceNumber);
-Serial.print("chaufDeviceNumber n° = ");
-Serial.println(chaufDeviceNumber);
-Serial.print("extDeviceNumber n° = ");
-Serial.println(extDeviceNumber);
+  if (SERIAL_PORT_LOG_ENABLE) {
+    Serial.print("on board device n° = ");
+    Serial.println(onBoardDeviceNumber);
+    Serial.print("chaufDeviceNumber n° = ");
+    Serial.println(chaufDeviceNumber);
+    Serial.print("extDeviceNumber n° = ");
+    Serial.println(extDeviceNumber);
+  }
 
+mqttpublishtry();
 
   if (SERIAL_PORT_LOG_ENABLE) {
     Serial.println("End of Setup");
@@ -245,13 +273,16 @@ void loop() {
 
   //LoopLog
   if(SERIAL_PORT_LOG_ENABLE){
-  Serial.print(".\r");
-  delay(100);
-  Serial.print("Start of loop\r\n");
+  Serial.print("Start of loop .... ");
+  Serial.print("millis() - lastConnectionTime =  ");
+  Serial.print(millis() - lastConnectionTime);
+  Serial.print("           RegularpostingInterval = ")  ;
+  Serial.println(RegularpostingInterval);
   }
 
+delay(30000);
+
   if(AvecWifi){
-  WifiConnectOwner((char*)ssid1,(char*)password1);
   UpdateTime();
   rssi = WiFi.RSSI();
   if (Year < 2016) { // si l'heure n'est pas configuree C est a dire si l'annee n'est pas bonne, alors on recupere l'heure sur le serveur NTP
@@ -268,30 +299,80 @@ void loop() {
   }
  }
 
-sensors.requestTemperatures();
-
-Serial.print("Temperature of onBoardDeviceNumber= ");
-ThempBoard=sensors.getTempCByIndex(onBoardDeviceNumber);
-Serial.println(ThempBoard);
-
-Serial.print("Temperature of extDeviceNumber= ");
-ThempExt=sensors.getTempCByIndex(extDeviceNumber);
-Serial.println(ThempExt);
-
-Serial.print("Temperature of chaufDeviceNumber= ");
-ThempChauf=sensors.getTempCByIndex(chaufDeviceNumber);
-Serial.println(ThempChauf);
-
 if (millis() - lastConnectionTime > RegularpostingInterval)
   {
+    sensors.requestTemperatures();
+    
+    ThempBoard=sensors.getTempCByIndex(onBoardDeviceNumber);
+    if (SERIAL_PORT_LOG_ENABLE) {
+    Serial.print("Temperature of onBoardDeviceNumber= ");
+    Serial.print(ThempBoard);
+    Serial.print("     onBoardDeviceNumber= ");
+    Serial.println(onBoardDeviceNumber);
+    }
+    
+    ThempExt=sensors.getTempCByIndex(extDeviceNumber);
+    if (SERIAL_PORT_LOG_ENABLE) {
+    Serial.print("Temperature of extDeviceNumber= ");
+    Serial.print(ThempExt);
+    Serial.print("     extDeviceNumber= ");
+    Serial.println(extDeviceNumber); 
+    }
+
+    ThempChauf=sensors.getTempCByIndex(chaufDeviceNumber);
+    if (SERIAL_PORT_LOG_ENABLE) {
+      Serial.print("Temperature of chaufDeviceNumber= ");
+      Serial.print(ThempChauf);
+      Serial.print("     chaufDeviceNumber= ");
+      Serial.println(chaufDeviceNumber);
+    }
     mqttpublishtry();  
+
+    if ((ThempChauf > 15 && mailToSend ==true && AvecMail == true )) //Detecte l'ouverture de la porte
+      {
+        if (SERIAL_PORT_LOG_ENABLE) {
+          Serial.println();
+          Serial.println("ThempChauf > 15 && mailToSend = =true && AvecMail == true");
+          Serial.println("Rearmement alerte mail");
+        }
+        mailToSend = true;
+      }
+
+    if ((ThempChauf < ThempMin && mailToSend ==true && AvecMail == true )) //Detecte l'ouverture de la porte
+    {
+      if (SERIAL_PORT_LOG_ENABLE) {
+        Serial.println();
+        Serial.print("Alerte temperature  : ");
+        Serial.println("ThempChauf < 4");
+      }
+      MailContent = String("Alerte temperature : ");
+      MailContent = String("Thempérature du circuit de chauffage < 4°C \r\n");
+      UpdateTime();
+  
+      if (sendEmail(MailFrom, MailTo, MailContent, ThingspeakChannelAdress, ThingspeakWriteAPIKey)) {
+        mailToSend = false;
+        if (SERIAL_PORT_LOG_ENABLE) {
+          Serial.println("Email sent");
+        }
+      }
+      else
+      {
+        if (SERIAL_PORT_LOG_ENABLE) {
+          Serial.println("Email failed");
+        }
+      }
+    }// fin if ((ThempChauf ....
+  
   }
 
-delay(6000);
-
-//ESP.deepSleep(24*3600*1000000, WAKE_NO_RFCAL);  // Sleep pour 1 jour
-//ESP.deepSleep(2*60*1000000, WAKE_NO_RFCAL); // Sleep pour 2 minutes
-//Waikup on GPIO16 reset.... witch Pin ???
+if (millis() - lastConnectionTime > whatchDogValue) //whatch dog 
+  {
+    if (SERIAL_PORT_LOG_ENABLE) {
+      Serial.println();
+      Serial.println("Loop Whatch Dog activation -> relaunch Setup()");
+    }
+    setup();
+  }
 
 
 
@@ -374,12 +455,6 @@ void UpdateTime() {
     StringTime += ":";
   }
   StringTime += Second;
-  if (SERIAL_PORT_LOG_ENABLE) {
-    //Serial.print("valeure de StringDate ");
-    //Serial.println(StringDate);
-    //Serial.print("valeure de StringTime ");
-    //Serial.println(StringTime);
-  }
 }//End of Update Time
 
 
@@ -461,29 +536,6 @@ void sendNTPpacket(IPAddress& address)
   udp.endPacket();
 }
 
-void sendDailyMail() {    
-    GetTimeByUDP();
-//    Read_Button(IlsPorte, Verrou);
-    if (SERIAL_PORT_LOG_ENABLE) {
-      Serial.println();
-      Serial.println("Daily mail");
-    }
-    MailContent = String("Daily report: rue de Vaugirard \r\n");
-    if (sendEmail(MailFrom, MailTo, MailContent, ThingspeakChannelAdress, ThingspeakWriteAPIKey)) { // Mail sent success
-      DailyMailSent = true;
-      if (SERIAL_PORT_LOG_ENABLE) {
-        Serial.println("Email sent");
-      }
-    }
-    else // Mail sent failure
-    {
-      if (SERIAL_PORT_LOG_ENABLE) {
-        Serial.println("Email not sent - System frozen for 3 minutes");
-      }
-      delay(180000); // on bloque l'envoie du Daily mai pour 3 minutes avant prochain envoie
-    }
-  }//FIN sendDailyMail
-
 byte sendEmail(String FcMailFrom, String FcMailTo, String FcMailContent, String FcThingspeakChannelAdress, String FcThingspeakChannelWriteAPIKey)
 {
   if (!AvecMail) return 0; // sort de la procedure sans envoyer le mail si Avec mail=0
@@ -536,7 +588,7 @@ byte sendEmail(String FcMailFrom, String FcMailTo, String FcMailContent, String 
   client.println(FcMailTo); // Destinataire
   client.print("From: Me "); // My address
   client.println(FcMailFrom); // My address
-  client.println("Subject: Arduino Report from Maison Paris\r\n"); //sujet du mail
+  client.println("Subject: Arduino Report Pouilly\r\n"); //sujet du mail
   //Corps du mail
   client.print(FcMailContent); // message specifique de l'application appelante
 
@@ -551,7 +603,7 @@ byte sendEmail(String FcMailFrom, String FcMailTo, String FcMailContent, String 
   client.print("http:///");
   client.println(WiFi.localIP());
 
-  client.print("SW version: xx/01/2018  ;  "); // Date de compilation
+  client.print("SW version: 10/02/2018  ;  "); // Date de compilation
   client.println("21-Wifi-thermo-num"); // chemin
 
   //fin du mail
@@ -653,30 +705,40 @@ void reconnect()
   // Loop until we're reconnected
   while (!mqttClient.connected())
   {
-    Serial.print("Attempting MQTT connection...");
+    if (SERIAL_PORT_LOG_ENABLE) {
+      Serial.print("Attempting MQTT connection..........................................");
+    }
     // Connect to the MQTT broker
     if (mqttClient.connect(ThingspeakClientID, ThingspeakUserID, ThingspeakUserPwd))
     {
-      Serial.println("connected");
+      if (SERIAL_PORT_LOG_ENABLE) {
+        Serial.println("connected");
+      }
     } else
     {
       connect_counter = connect_counter - 1;
       if ((mqttClient.state() == -3) or (connect_counter < 0))
       {
-        Serial.println("-3 : MQTT_CONNECTION_LOST - the network connection was broken ... launch setup");
+        if (SERIAL_PORT_LOG_ENABLE) {
+          Serial.println("-3 : MQTT_CONNECTION_LOST - the network connection was broken ... launch setup");
+        }
         setup();
       }
-      Serial.print("failed, rc=");
+      if (SERIAL_PORT_LOG_ENABLE) {
+        Serial.print("failed, rc=");
+      
       // Print to know why the connection failed
       // See http://pubsubclient.knolleary.net/api.html#state for the failure code and its reason
+      if (SERIAL_PORT_LOG_ENABLE) {
       Serial.print(mqttClient.state());
       Serial.println(" try again in 5 seconds");
+      }
       // Wait 5 seconds before retrying to connect again
       delay(5000);
     }
   }
 }
-
+}
 void mqttpublish() {
   String data = String("field1=");
   data = String("field1=" + String(ThempBoard, DEC) + "&field2=" + String(ThempExt, DEC) + "&field3=" + String(ThempChauf, DEC) + "&field4=" + String(rssi, DEC));
@@ -687,7 +749,9 @@ void mqttpublish() {
   char* PublishCmd = "channels/350196/publish/6EZ2KNK872STBCP9";
   // Convert data string to character buffer
   data.toCharArray(msgBuffer, length + 1);
-  Serial.println(msgBuffer);
+  if (SERIAL_PORT_LOG_ENABLE) {
+    Serial.println(msgBuffer);
+  }
   //Publish data to ThingSpeak. Replace <YOUR-CHANNEL-ID> with your channel ID and <YOUR-CHANNEL-WRITEAPIKEY> with your write API key
   if(mqttClient.publish(PublishCmd, msgBuffer)){
     // note the last connection time
@@ -706,7 +770,6 @@ void mqttpublishtry() {
   if (millis() - lastConnectionTime > postingInterval)
   {
     mqttpublish();
-    Update_needed = false;
   }
     if (SERIAL_PORT_LOG_ENABLE) {
     Serial.print("millis() - lastConnectionTime = ");
@@ -765,7 +828,9 @@ for (int i = 0; i < numberOfNetworks; i++) {
       break;
     }
   }//End FOR
-  Serial.println("End of WifiConnexionManager");
+  if (SERIAL_PORT_LOG_ENABLE) {
+    Serial.println("End of WifiConnexionManager");
+  }
 }//end WifiConnexionManager
 
 
@@ -798,45 +863,47 @@ void  WifiConnectOwner(char* SSIDowner_fct, char* passwordowner_fct) {
       break;
     }
   }//End FOR
-Serial.println("End of WifiConnectOwner");  
+if (SERIAL_PORT_LOG_ENABLE) {
+  Serial.println("End of WifiConnectOwner");  
+}
 }//end WifiConnectOwner
 
 void WaitConnexion(){
       int cpt=30;
       if (SERIAL_PORT_LOG_ENABLE) {
-      Serial.println("Begin of WaitConnexion");
-      Serial.print("cpt= ");
-      Serial.print(cpt);
-      Serial.print("   WiFi.status= ");
-      Serial.print(WiFi.status());
-      Serial.print("   WL_CONNECTED= ");
-      Serial.println(WL_CONNECTED);
-      Serial.print("test = (cpt >= 0) && ((WiFi.status() != WL_CONNECTED)) =  ");
-      Serial.println((cpt > 0) && ((WiFi.status() != WL_CONNECTED)));
+        Serial.println("Begin of WaitConnexion");
+        Serial.print("cpt= ");
+        Serial.print(cpt);
+        Serial.print("   WiFi.status= ");
+        Serial.print(WiFi.status());
+        Serial.print("   WL_CONNECTED= ");
+        Serial.println(WL_CONNECTED);
+        Serial.print("test = (cpt >= 0) && ((WiFi.status() != WL_CONNECTED)) =  ");
+        Serial.println((cpt > 0) && ((WiFi.status() != WL_CONNECTED)));
       }
       while((cpt > 0) && ((WiFi.status() != WL_CONNECTED))){
       if (SERIAL_PORT_LOG_ENABLE) {
-      Serial.print("cpt= ");
-      Serial.print(cpt);
-      Serial.print("   WiFi.status= ");
-      Serial.print(WiFi.status());
-      Serial.print("   WL_CONNECTED= ");
-      Serial.println(WL_CONNECTED);
-      Serial.print("test = (cpt >= 0) && ((WiFi.status() != WL_CONNECTED)) =  ");
-      Serial.println((cpt > 0) && ((WiFi.status() != WL_CONNECTED)));
+        Serial.print("cpt= ");
+        Serial.print(cpt);
+        Serial.print("   WiFi.status= ");
+        Serial.print(WiFi.status());
+        Serial.print("   WL_CONNECTED= ");
+        Serial.println(WL_CONNECTED);
+        Serial.print("test = (cpt >= 0) && ((WiFi.status() != WL_CONNECTED)) =  ");
+        Serial.println((cpt > 0) && ((WiFi.status() != WL_CONNECTED)));
       }
       cpt = cpt -1;
       delay(1000);
       }
       if (SERIAL_PORT_LOG_ENABLE) {
-      Serial.print("cpt= ");
-      Serial.print(cpt);
-      Serial.print("   WiFi.status= ");
-      Serial.print(WiFi.status());
-      Serial.print("   WL_CONNECTED= ");
-      Serial.println(WL_CONNECTED);
-      Serial.print("test = (cpt >= 0) && ((WiFi.status() != WL_CONNECTED)) =  ");
-      Serial.println((cpt > 0) && ((WiFi.status() != WL_CONNECTED)));
+        Serial.print("cpt= ");
+        Serial.print(cpt);
+        Serial.print("   WiFi.status= ");
+        Serial.print(WiFi.status());
+        Serial.print("   WL_CONNECTED= ");
+        Serial.println(WL_CONNECTED);
+        Serial.print("test = (cpt >= 0) && ((WiFi.status() != WL_CONNECTED)) =  ");
+        Serial.println((cpt > 0) && ((WiFi.status() != WL_CONNECTED)));
       }
       if ((WiFi.status()== WL_CONNECTED))
       {
@@ -862,12 +929,16 @@ byte discoverOneWireDevices() {
     j++;
   }
   for (byte i=0; i < j; i++) {
+    if (SERIAL_PORT_LOG_ENABLE) {
     Serial.print("Device ");
     Serial.print(i);  
     Serial.print(": ");                          
     printAddress(allAddress[i]);                  // print address from each device address arry.
+    }
   }
+  if (SERIAL_PORT_LOG_ENABLE) {
   Serial.print("\r\n");
+  }
   return j                      ;                 // return total number of devices found.
 }
 
