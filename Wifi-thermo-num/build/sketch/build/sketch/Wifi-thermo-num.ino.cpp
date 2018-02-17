@@ -23,6 +23,7 @@ String CurentSSIDTry;
 String MailContent = "no mail content defined\r\n";
 String StringDate = "no date";
 String StringTime = "no time";
+String Release_Date = "12-02-2018";
 
 //Definition des Inputs
 
@@ -209,11 +210,11 @@ if(onBoardDeviceNumber==2){
   }
 
   if (SERIAL_PORT_LOG_ENABLE) {
-    Serial.print("on board device n° = ");
+    Serial.print("on board device n = ");
     Serial.println(onBoardDeviceNumber);
-    Serial.print("chaufDeviceNumber n° = ");
+    Serial.print("chaufDeviceNumber n = ");
     Serial.println(chaufDeviceNumber);
-    Serial.print("extDeviceNumber n° = ");
+    Serial.print("extDeviceNumber n = ");
     Serial.println(extDeviceNumber);
   }
 
@@ -303,7 +304,7 @@ if (millis() - lastConnectionTime > RegularpostingInterval)
         Serial.println("ThempChauf < 4");
       }
       MailContent = String("Alerte temperature : ");
-      MailContent = String("Thempérature du circuit de chauffage < 4°C \r\n");
+      MailContent = String("Themperature du circuit de chauffage < 4 deges \r\n");
       UpdateTime();
   
       if (sendEmail(MailFrom, MailTo, MailContent, ThingspeakChannelAdress, ThingspeakWriteAPIKey)) {
@@ -560,8 +561,9 @@ byte sendEmail(String FcMailFrom, String FcMailTo, String FcMailContent, String 
   client.print("http:///");
   client.println(WiFi.localIP());
 
-  client.print("SW version: 10/02/2018  ;  "); // Date de compilation
-  client.println("21-Wifi-thermo-num"); // chemin
+  client.print("SW version: "); // Date de compilation
+  client.print(Release_Date);
+  client.println("   ;   Wifi-thermo-num thingspeaks - bis"); // chemin
 
   //fin du mail
   client.println(".");
@@ -755,7 +757,7 @@ for (int i = 0; i < numberOfNetworks; i++) {
       CurentSSID = WiFi.SSID(i);
       WaitConnexion();
       if (SERIAL_PORT_LOG_ENABLE) {
-        Serial.print("Wifi trouvé. temtative de connexion a: ");
+        Serial.print("Wifi trouve. tentative de connexion a: ");
         Serial.println(ssid1);
       }
       break;
@@ -766,7 +768,7 @@ for (int i = 0; i < numberOfNetworks; i++) {
       CurentSSID = WiFi.SSID(i);
       WaitConnexion();
       if (SERIAL_PORT_LOG_ENABLE) {
-        Serial.print("Wifi trouvé. temtative de connexion a: ");
+        Serial.print("Wifi trouve. tentative de connexion a: ");
         Serial.println(ssid2);
       }
       break;
@@ -777,7 +779,7 @@ for (int i = 0; i < numberOfNetworks; i++) {
       CurentSSID = WiFi.SSID(i);
       WaitConnexion();
       if (SERIAL_PORT_LOG_ENABLE) {
-        Serial.print("Wifi trouvé. temtative de connexion a: ");
+        Serial.print("Wifi trouve. tentative de connexion a: ");
         Serial.println(ssid0);
         Serial.print("Wifi.status(): ");
         Serial.println(WiFi.status());

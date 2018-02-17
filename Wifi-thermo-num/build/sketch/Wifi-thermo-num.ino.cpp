@@ -23,6 +23,7 @@ String CurentSSIDTry;
 String MailContent = "no mail content defined\r\n";
 String StringDate = "no date";
 String StringTime = "no time";
+String Release_Date = "12-02-2018";
 
 //Definition des Inputs
 
@@ -93,49 +94,49 @@ WiFiUDP udp; //A UDP instance to let us send and receive packets over UDP
 PubSubClient mqttClient(client); // Initialize the PuBSubClient library
 
 //************************Debut de setup*************************
-#line 93 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 94 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void setup();
-#line 226 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 227 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void loop();
-#line 335 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 336 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void UpdateTime();
-#line 415 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 416 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void GetTimeByUDP();
-#line 467 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 468 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void sendNTPpacket(IPAddress& address);
-#line 493 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 494 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 byte sendEmail(String FcMailFrom, String FcMailTo, String FcMailContent, String FcThingspeakChannelAdress, String FcThingspeakChannelWriteAPIKey);
-#line 584 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 586 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 byte eRcv();
-#line 622 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 624 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void efail();
-#line 656 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 658 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void reconnect();
-#line 696 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 698 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void mqttpublish();
-#line 716 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 718 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void mqttpublishtry();
-#line 734 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 736 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void WifiConnexionManager();
-#line 791 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 793 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void WifiConnectOwner(char* SSIDowner_fct, char* passwordowner_fct);
-#line 825 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 827 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void WaitConnexion();
-#line 874 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 876 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 int getSensorsOnBus();
-#line 879 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 881 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 byte discoverOneWireDevices();
-#line 899 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 901 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void printAddress(DeviceAddress addr);
-#line 914 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 916 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void printTemperature(DeviceAddress addr);
-#line 930 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 932 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 float readTemperature(DeviceAddress addr);
-#line 940 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 942 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 byte findOnboardDevice(byte addr[3][8], DeviceAddress SensorToCompare);
-#line 971 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 973 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 byte findChaufDevice(byte addr[3][8], DeviceAddress SensorToCompare, byte excludedDevice);
-#line 93 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
+#line 94 "C:\\Users\\cgueble\\Documents\\Arduino\\ESP8266_Thermo_Num\\Wifi-thermo-num\\Wifi-thermo-num.ino"
 void setup() {
   delay(1000);
   if (SERIAL_PORT_LOG_ENABLE) {
@@ -252,11 +253,11 @@ if(onBoardDeviceNumber==2){
   }
 
   if (SERIAL_PORT_LOG_ENABLE) {
-    Serial.print("on board device n° = ");
+    Serial.print("on board device n = ");
     Serial.println(onBoardDeviceNumber);
-    Serial.print("chaufDeviceNumber n° = ");
+    Serial.print("chaufDeviceNumber n = ");
     Serial.println(chaufDeviceNumber);
-    Serial.print("extDeviceNumber n° = ");
+    Serial.print("extDeviceNumber n = ");
     Serial.println(extDeviceNumber);
   }
 
@@ -346,7 +347,7 @@ if (millis() - lastConnectionTime > RegularpostingInterval)
         Serial.println("ThempChauf < 4");
       }
       MailContent = String("Alerte temperature : ");
-      MailContent = String("Thempérature du circuit de chauffage < 4°C \r\n");
+      MailContent = String("Themperature du circuit de chauffage < 4 deges \r\n");
       UpdateTime();
   
       if (sendEmail(MailFrom, MailTo, MailContent, ThingspeakChannelAdress, ThingspeakWriteAPIKey)) {
@@ -603,8 +604,9 @@ byte sendEmail(String FcMailFrom, String FcMailTo, String FcMailContent, String 
   client.print("http:///");
   client.println(WiFi.localIP());
 
-  client.print("SW version: 10/02/2018  ;  "); // Date de compilation
-  client.println("21-Wifi-thermo-num"); // chemin
+  client.print("SW version: "); // Date de compilation
+  client.print(Release_Date);
+  client.println("   ;   Wifi-thermo-num thingspeaks - bis"); // chemin
 
   //fin du mail
   client.println(".");
@@ -798,7 +800,7 @@ for (int i = 0; i < numberOfNetworks; i++) {
       CurentSSID = WiFi.SSID(i);
       WaitConnexion();
       if (SERIAL_PORT_LOG_ENABLE) {
-        Serial.print("Wifi trouvé. temtative de connexion a: ");
+        Serial.print("Wifi trouve. tentative de connexion a: ");
         Serial.println(ssid1);
       }
       break;
@@ -809,7 +811,7 @@ for (int i = 0; i < numberOfNetworks; i++) {
       CurentSSID = WiFi.SSID(i);
       WaitConnexion();
       if (SERIAL_PORT_LOG_ENABLE) {
-        Serial.print("Wifi trouvé. temtative de connexion a: ");
+        Serial.print("Wifi trouve. tentative de connexion a: ");
         Serial.println(ssid2);
       }
       break;
@@ -820,7 +822,7 @@ for (int i = 0; i < numberOfNetworks; i++) {
       CurentSSID = WiFi.SSID(i);
       WaitConnexion();
       if (SERIAL_PORT_LOG_ENABLE) {
-        Serial.print("Wifi trouvé. temtative de connexion a: ");
+        Serial.print("Wifi trouve. tentative de connexion a: ");
         Serial.println(ssid0);
         Serial.print("Wifi.status(): ");
         Serial.println(WiFi.status());

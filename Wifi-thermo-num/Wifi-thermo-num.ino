@@ -754,7 +754,7 @@ for (int i = 0; i < numberOfNetworks; i++) {
       CurentSSID = WiFi.SSID(i);
       WaitConnexion();
       if (SERIAL_PORT_LOG_ENABLE) {
-        Serial.print("Wifi trouvé. temtative de connexion a: ");
+        Serial.print("Wifi trouve. tentative de connexion a: ");
         Serial.println(ssid1);
       }
       break;
@@ -765,7 +765,7 @@ for (int i = 0; i < numberOfNetworks; i++) {
       CurentSSID = WiFi.SSID(i);
       WaitConnexion();
       if (SERIAL_PORT_LOG_ENABLE) {
-        Serial.print("Wifi trouvé. temtative de connexion a: ");
+        Serial.print("Wifi trouve. tentative de connexion a: ");
         Serial.println(ssid2);
       }
       break;
@@ -776,7 +776,7 @@ for (int i = 0; i < numberOfNetworks; i++) {
       CurentSSID = WiFi.SSID(i);
       WaitConnexion();
       if (SERIAL_PORT_LOG_ENABLE) {
-        Serial.print("Wifi trouvé. temtative de connexion a: ");
+        Serial.print("Wifi trouve. tentative de connexion a: ");
         Serial.println(ssid0);
         Serial.print("Wifi.status(): ");
         Serial.println(WiFi.status());
